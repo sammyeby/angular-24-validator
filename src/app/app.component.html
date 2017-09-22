@@ -1,0 +1,160 @@
+<div class="demo-wrapper">
+  <h2>
+    {{title}}
+  </h2>
+  <h2>
+    {{subTitle}}
+  </h2>
+
+  <form #testForm="ngForm" class="demo-form" es-dependence-initiator>
+    <table class="demo-form__table">
+      <tr class="demo-form__row">
+        <td class="demo-form__cell">
+          <div class="cell-item">
+            <div class="cell-item__title">
+              Single Validator
+            </div>
+            <div class="cell-item__content">
+              <input type="text"
+                     name="single"
+                     class="text-box"
+                     [esValidator]="checkLength"
+                     #single="ngModel"
+                     [(ngModel)]="demoModel.single"
+                     required>
+            </div>
+          </div>
+          <pre>{{'"$error":' + (single.errors | json)}}, {{'"$pristine":' + single.pristine}}, {{'"$dirty":' + single.dirty}}{{'"$touched":' + single.touched}},<br>
+            {{'"$untouched":' + single.untouched}}, {{'"$valid":' + single.valid}}, {{'"$invalid":' + single.invalid}}
+          </pre>
+        </td>
+      </tr>
+      <tr class="demo-form__row">
+        <td class="demo-form__cell">
+          <div class="cell-item">
+            <div class="cell-item__title">
+              Multiple Validators
+            </div>
+            <div class="cell-item__content">
+              <input type="text"
+                     name="multi"
+                     class="text-box"
+                     [esValidatorMulti]="[checkLength, isValidString]"
+                     #multi="ngModel"
+                     [(ngModel)]="demoModel.multi"
+                     required>
+            </div>
+          </div>
+          <pre>{{'"$error":' + (multi.errors | json)}}, {{'"$pristine":' + multi.pristine}}, {{'"$dirty":' + multi.dirty}}{{'"$touched":' + multi.touched}},<br>
+            {{'"$untouched":' + multi.untouched}}, {{'"$valid":' + multi.valid}}, {{'"$invalid":' + multi.invalid}}
+          </pre>
+        </td>
+      </tr>
+      <tr class="demo-form__row">
+        <td class="demo-form__cell">
+          <div class="cell-item">
+            <div class="cell-item__title">
+              Single Async Validator
+            </div>
+            <div class="cell-item__content">
+              <input type="text"
+                     name="async"
+                     class="text-box"
+                     [esValidatorAsync]="checkDeveloperAsyncFn"
+                     #async="ngModel"
+                     [(ngModel)]="demoModel.async"
+                     required>
+            </div>
+          </div>
+          <pre>{{'"$error":' + (async.errors | json)}}, {{'"$pristine":' + async.pristine}}, {{'"$dirty":' + async.dirty}}{{'"$touched":' + async.touched}},<br>
+            {{'"$untouched":' + async.untouched}}, {{'"$valid":' + async.valid}}, {{'"$invalid":' + async.invalid}}
+          </pre>
+        </td>
+      </tr>
+      <tr class="demo-form__row">
+        <td class="demo-form__cell">
+          <div class="cell-item">
+            <div class="cell-item__title">
+              Multiple Async Validators
+            </div>
+            <div class="cell-item__content">
+              <input type="text"
+                     name="asyncMulti"
+                     class="text-box"
+                     [esValidatorAsyncMulti]="[checkDeveloperAsyncFn, checkIfLegendAsyncFn]"
+                     #asyncMulti="ngModel"
+                     [(ngModel)]="demoModel.asyncMulti"
+                     required>
+            </div>
+          </div>
+          <pre>{{'"$error":' + (asyncMulti.errors | json)}}, {{'"$pristine":' + asyncMulti.pristine}}, {{'"$dirty":' + asyncMulti.dirty}}{{'"$touched":' + asyncMulti.touched}},<br>
+            {{'"$untouched":' + asyncMulti.untouched}}, {{'"$valid":' + asyncMulti.valid}}, {{'"$invalid":' + asyncMulti.invalid}}
+          </pre>
+        </td>
+      </tr>
+      <tr class="demo-form__row">
+        <td class="demo-form__cell">
+          <div class="cell-item">
+            <div class="cell-item__title">
+              Dependent Validators <button style="height: 30px; cursor: pointer;" (click)="toggleInput()" type="button">Toggle New Dependent Input Box</button>
+            </div>
+            <div class="cell-item__content">
+              <div class="item">
+                <input type="text"
+                       name="dependant_1"
+                       class="text-box"
+                       [esDependentValidator]="validateDependentInputs.bind(this)"
+                       #dependant_1="ngModel"
+                       [(ngModel)]="demoModel.dependants.one"
+                       required>
+
+                <pre>{{'"$error":' + (dependant_1.errors | json)}},
+                  {{'"$pristine":' + dependant_1.pristine}},
+                  {{'"$dirty":' + dependant_1.dirty}},
+                  {{'"$touched":' + dependant_1.touched}},
+                  {{'"$untouched":' + dependant_1.untouched}},
+                  {{'"$valid":' + dependant_1.valid}},
+                  {{'"$invalid":' + dependant_1.invalid}}</pre>
+              </div>
+              <div class="item">
+                <input type="text"
+                       name="dependant_2"
+                       class="text-box"
+                       [esDependentValidator]="validateDependentInputs.bind(this)"
+                       #dependant_2="ngModel"
+                       [(ngModel)]="demoModel.dependants.two"
+                       required>
+
+                <pre>{{'"$error":' + (dependant_2.errors | json)}},
+                  {{'"$pristine":' + dependant_2.pristine}},
+                  {{'"$dirty":' + dependant_2.dirty}},
+                  {{'"$touched":' + dependant_2.touched}},
+                  {{'"$untouched":' + dependant_2.untouched}},
+                  {{'"$valid":' + dependant_2.valid}},
+                  {{'"$invalid":' + dependant_2.invalid}}</pre>
+              </div>
+              <div class="item" *ngIf="addNewInput">
+                <input type="text"
+                       name="dependant_3"
+                       class="text-box"
+                       [esDependentValidator]="validateDependentInputs.bind(this)"
+                       #dependant_3="ngModel"
+                       [(ngModel)]="demoModel.dependants.three"
+                       required>
+
+                <pre>{{'"$error":' + (dependant_3.errors | json)}},
+                  {{'"$pristine":' + dependant_3.pristine}},
+                  {{'"$dirty":' + dependant_3.dirty}},
+                  {{'"$touched":' + dependant_3.touched}},
+                  {{'"$untouched":' + dependant_3.untouched}},
+                  {{'"$valid":' + dependant_3.valid}},
+                  {{'"$invalid":' + dependant_3.invalid}}</pre>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </form>
+
+</div>
